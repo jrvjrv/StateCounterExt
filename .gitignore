@@ -7,6 +7,7 @@
 !*/
 # Recursively allow files under subtree
 !/src/**
+!/dist/**
 # You can be specific with these rules
 # !/some/other/deep/path/**
 !.gitignore

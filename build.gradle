@@ -12,6 +12,8 @@
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 
+version='0.02.00'
+
 task wrapper( type: Wrapper ) {
     gradleVersion = "2.10"
 }
@@ -32,5 +34,20 @@ dependencies {
     // TestNG is also supported by the Gradle Test task. Just change the
     // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
     // 'test.useTestNG()' to your build script.
-    testCompile 'junit:junit:3.8.2'
+    // testCompile 'junit:junit:3.8.2'
+    // https://mvnrepository.com/artifact/junit/junit
+    compile group: 'junit', name: 'junit', version: '4.12'
+
+    compile files( '../../source/vassalengine-svn/VASSAL-src/trunk/lib/Vengine.jar', '../../source/vasl/target/vasl-6.4.0-alpha2.jar' )
+//    runtime files( '../../source/vassalengine-svn/VASSAL-src/trunk/lib/Vengine.jar' )
+}
+
+jar {
+    baseName 'StateCounterExt'
+
+    manifest{
+        // attributes ("Fw-Version" : "${project.version}", "${parent.manifestSectionName}")
+        attributes ("Implementation-Title": "${jar.baseName}",
+                   "Implementation-Version": "${project.version}" )
+    }
 }
