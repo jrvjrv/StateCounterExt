@@ -1,6 +1,6 @@
 package com.jrvdev.StateCounterExt;
 
-import VASL.counters.StateCounter;
+import com.jrvdev.StateCounterExt.StateCounter;
 import VASSAL.command.AddPiece;
 import VASSAL.command.Command;
 import VASSAL.command.NullCommand;

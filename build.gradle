@@ -40,10 +40,13 @@ dependencies {
 
     compile files( '../../source/vassalengine-svn/VASSAL-src/trunk/lib/Vengine.jar', '../../source/vasl/target/vasl-6.4.0-alpha2.jar' )
 //    runtime files( '../../source/vassalengine-svn/VASSAL-src/trunk/lib/Vengine.jar' )
+    compile files( '../../../workspace/StateDataStructure/build/libs/StateDataStructure-0.50.00.jar' )
 }
 
 jar {
     baseName 'StateCounterExt'
+    
+    from( 'dist/' ) { include 'buildFile'; }
 
     manifest{
         // attributes ("Fw-Version" : "${project.version}", "${parent.manifestSectionName}")
