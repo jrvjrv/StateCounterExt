@@ -16,7 +16,7 @@ plugins {
 
 apply plugin: 'java'
 
-version='0.02.00'
+version='0.05.00'
 sourceCompatibility=1.5
 targetCompatibility=1.5
 

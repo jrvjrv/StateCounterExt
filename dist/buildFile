@@ -1,15 +1,17 @@
 <VASSAL.build.module.ModuleExtension anyModule="false" description="" extensionId="d58" module="VASL" moduleVersion="6.3.3" nextPieceSlotId="5" vassalVersion="3.2.17" version="0.0">
   <com.jrvdev.StateCounterExt.StateCounterCommandEncoder />
   <!-- this creates a separate button with text "test Pieces" on the tool bar -->
-  <VASSAL.build.module.ExtensionElement target="">
+  <!-- <VASSAL.build.module.ExtensionElement target="">
     <VASSAL.build.module.PieceWindow hidden="false" hotkey="" icon="" name="test game piece palette" text="test Pieces" tooltip="Show/Hide the null window">
       <VASSAL.build.widget.PieceSlot entryName="test piece" gpid="d58:2" height="48" width="48">SC+/null/piece;;;fi\/fi000H.gif;test piece/null;0;0;d58:2</VASSAL.build.widget.PieceSlot>
     </VASSAL.build.module.PieceWindow>
-  </VASSAL.build.module.ExtensionElement>
+  </VASSAL.build.module.ExtensionElement> -->
   <!-- this creates a tab inside the counter window -->
   <VASSAL.build.module.ExtensionElement target="VASSAL.build.module.PieceWindow:VASL Counters/VASSAL.build.widget.TabWidget">
-    <VASSAL.build.widget.PanelWidget entryName="Test inside vasl" fixed="false" nColumns="3" vert="false">
-      <VASSAL.build.widget.PieceSlot entryName="test inside vasl piece" gpid="d58:4" height="0" width="0">SC+/null/piece;;;ax\/gun\/roAR107.gif;test inside vasl piece/null;0;0;</VASSAL.build.widget.PieceSlot>
+    <VASSAL.build.widget.PanelWidget entryName="Orig4-5-8 new4-5-8 new4-4-7" fixed="false" nColumns="3" vert="false">
+      <VASSAL.build.widget.PieceSlot entryName="4-5-8 Esq" gpid="432" height="48" width="68">+/null/prototype;DBUnit	prototype;ruINF\	hideCmd;NoBH;Hide;SQ_Level = 3;81\,130\\	emb2;;2;FV;;2;E;;2;Q;;;0;false;0;0;ru\/ruh7b,ru\/ruh6b,ru\/ruh4b;broken +,broken +,broken +;false;;;;false;;1\\\	emb2;SQ\/HS;2;V;;2;E;;2;Q;;;0;false;0;0;ru\/ru248H,ru\/ru237H,ru\/ru226H;2-4-8 Ehs,2-3-7 1hs,2-2-6 Chs;false;;;;false;;1;1;false;86,130;69,130;81,130\\\\	emb2;;2;F;;2;E;;2;Q;;;0;false;0;0;ru\/rus8b,ru\/rus7b,ru\/rus5b;broken +,broken +,broken +;false;BRK;;;false;;1;1;false;70,130;69,130;81,130\\\\\	emb2;;0;;ELR;2;E;BH;2;Q;;;0;false;0;0;ru\/ru458S,ru\/ru447S,ru\/ru426S;4-5-8 Esq,4-4-7 1sq,4-2-6 Csq;false;SQ;;;false;;1;1;true;;69,130;81,130\\\\\\	piece;K;D; ;4-5-8 Esq/	\	\\	-1;\\\	-1\\\\	-1\\\\\	1\\\\\\	null;0;0;432</VASSAL.build.widget.PieceSlot>
+      <VASSAL.build.widget.PieceSlot entryName="Test state 4-5-8" gpid="430" height="48" width="68">SC+/null/prototype;DBUnit	prototype;ruINF\	StateCounter;{"name":"Soviet Squad-Hs"}\\	piece;K;D; ;4-5-8x/	\	4-5-8;\\	null;0;0;430</VASSAL.build.widget.PieceSlot>
+      <VASSAL.build.widget.PieceSlot entryName="Test state 4-4-7" gpid="430" height="48" width="68">SC+/null/prototype;DBUnit	prototype;ruINF\	StateCounter;{"name":"Soviet Squad-Hs"}\\	piece;K;D; ;4-4-7x/	\	4-4-7;\\	null;0;0;430</VASSAL.build.widget.PieceSlot>
     </VASSAL.build.widget.PanelWidget>
   </VASSAL.build.module.ExtensionElement>
 </VASSAL.build.module.ModuleExtension>

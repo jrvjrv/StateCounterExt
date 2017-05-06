@@ -25,8 +25,6 @@ import VASSAL.counters.PieceEditor;
 import VASSAL.tools.SequenceEncoder;
 import VASSAL.tools.image.ImageUtils;
 import VASSAL.tools.imageop.ScaledImagePainter;
-//import VASSAL.counters.Point;
-//import VASSAL.counters.String;
 
 // TODO: Embellishment implements TranslatablePiece rather than EditablePiece.
 // TODO: TranslatablePiece adds internationalization, which can be deferred until later.
@@ -34,11 +32,6 @@ public class StateCounter extends Decorator implements EditablePiece {
    
     
     StateMachine< String, KeyStroke, StateCounterState > _stateMachine = null;
-    
-    //private class Transition {
-    //    private KeyStroke _key;
-    //    private String _transitionToStateId;
-    //}
     
     private class StateCounterState implements IStateDataStructureState< String >{
         private String _stateId;
@@ -78,10 +71,6 @@ public class StateCounter extends Decorator implements EditablePiece {
         }
     }
     
-    // TODO remove this
-    //private ArrayList<StateCounterState> _states;
-    //private int _currentState;
-    
     public static final String ID = "StateCounter;";
     // use the value that's inherited
     // protected GamePiece piece;
@@ -93,18 +82,15 @@ public class StateCounter extends Decorator implements EditablePiece {
 
     private void hardCodeInitialize() {
         System.out.println("hardCodeInitialize begin");
+        // ctrl-E
         KeyStroke elrKeyStroke = KeyStroke.getKeyStroke( 69, 130 );
+        // ctrl-Q
         KeyStroke battleHardenKeyStroke = KeyStroke.getKeyStroke( 81, 130 );
+        // ctrl-V
         KeyStroke squadHalfsquadKeyStroke = KeyStroke.getKeyStroke(86, 130);
+        // ctrl-F
         KeyStroke breakUnbreakKeyStroke = KeyStroke.getKeyStroke(70, 130);
         
-        //_states = new ArrayList<StateCounterState>();
-        //_states.add( new StateCounterState( "4-5-8", "4-5-8 E Sq", "ru/ru458S"));
-        //_states.add( new StateCounterState( "4-4-7", "4-4-7 1 Sq", "ru/ru447S"));
-        //_states.add( new StateCounterState( "4-2-6", "4-2-6 C Sq", "ru/ru426S"));
-        //_states.add( new StateCounterState( "5-2-7", "5-2-7 [1] Sq", "ru/ru527S"));
-        //_states.add( new StateCounterState( "6-2-8", "6-2-8 [E] Sq", "ru/ru628S"));
-        //_currentState = 0;
         _stateMachine = new StateMachine< String, KeyStroke, StateCounterState >();
         _stateMachine
             .addState( new StateCounterState( "4-5-8", "4-5-8 E Sq", "ru/ru458S"))
@@ -129,10 +115,6 @@ public class StateCounter extends Decorator implements EditablePiece {
             .addState( new StateCounterState( "broken 2-2-7", "2-2-7 [1] Hs", "ru/ruh6b"))
             .addState( new StateCounterState( "broken 3-2-8", "3-2-8 [E] Hs", "ru/ruh7b"));
 
-            //ru\/ru248H,ru\/ru237H,ru\/ru226H
-            //ru\/rus8b,ru\/rus7b,ru\/rus5b
-            //ru\/ruh7b,ru\/ruh6b,ru\/ruh4b
-        
         _stateMachine.addTransition(elrKeyStroke, "4-5-8", "4-4-7" )
             .addTransition(elrKeyStroke, "4-4-7", "4-2-6" )
             .addTransition(elrKeyStroke, "6-2-8", "5-2-7" )
@@ -344,24 +326,6 @@ public class StateCounter extends Decorator implements EditablePiece {
         // TODO hard-coded
         final ChangeTracker tracker = new ChangeTracker(this);
         _stateMachine.transition( stroke );
-        //if ( this._elrKeyStroke.equals(stroke)) {
-        //    switch( _currentState ) {
-        //    case 0: _currentState = 1; break;
-        //    case 1: _currentState = 2; break;
-        //    case 3: _currentState = 2; break;
-        //    case 4: _currentState = 3; break;
-        //    default: break;
-        //    }
-            //_currentState = Math.min( _currentState + 1, _states.size() - 1 );
-        //}
-        //else if ( this._battleHardenKeyStroke.equals(stroke)) {
-        //    switch( _currentState ) {
-        //        case 1: _currentState = 0; break;
-        //        case 2: _currentState = 3; break;
-        //        case 3: _currentState = 4; break;
-        //        default: break;
-        //    }
-        //}
         return tracker.isChanged() ? tracker.getChangeCommand() : null;
     }
     
