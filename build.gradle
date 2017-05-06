@@ -10,9 +10,15 @@
 // StateCounter
 
 // Apply the java plugin to add support for Java
+plugins {
+  id 'com.github.johnrengelman.shadow' version '1.2.4'
+}
+
 apply plugin: 'java'
 
 version='0.02.00'
+sourceCompatibility=1.5
+targetCompatibility=1.5
 
 task wrapper( type: Wrapper ) {
     gradleVersion = "2.10"
@@ -38,14 +44,38 @@ dependencies {
     // https://mvnrepository.com/artifact/junit/junit
     compile group: 'junit', name: 'junit', version: '4.12'
 
-    compile files( '../../source/vassalengine-svn/VASSAL-src/trunk/lib/Vengine.jar', '../../source/vasl/target/vasl-6.4.0-alpha2.jar' )
+    compile files( '../../source/vassalengine-svn/VASSAL-src/trunk/lib/Vengine.jar' )
+    compile files( '../../source/vasl/target/vasl-6.4.0-alpha2.jar' )
+//    shadow files( '../../source/vassalengine-svn/VASSAL-src/trunk/lib/Vengine.jar', '../../source/vasl/target/vasl-6.4.0-alpha2.jar' )
 //    runtime files( '../../source/vassalengine-svn/VASSAL-src/trunk/lib/Vengine.jar' )
     compile files( '../../../workspace/StateDataStructure/build/libs/StateDataStructure-0.50.00.jar' )
+    //shadow files( '../../../workspace/StateDataStructure/build/libs/StateDataStructure-0.50.00.jar' )
+    //runtime files( '../../../workspace/StateDataStructure/build/libs/StateDataStructure-0.50.00.jar' )
 }
 
 jar {
     baseName 'StateCounterExt'
     
+    from( 'dist/' ) { include 'buildFile'; }
+    
+    manifest{
+        // attributes ("Fw-Version" : "${project.version}", "${parent.manifestSectionName}")
+        attributes ("Implementation-Title": "${jar.baseName}",
+                   "Implementation-Version": "${project.version}" )
+    }
+}
+
+shadowJar {
+    dependencies {
+        // exclude file dependencies that will be available from vasl/vassal
+        exclude( '**/vasl*' ) 
+        exclude( '**/Veng*' )
+        // exclude unit-testing
+        exclude( dependency( group: 'junit', name: 'junit' ) )
+        exclude( dependency( group: 'org.hamcrest', name: 'hamcrest-core' ) )
+    }
+    baseName 'StateCounterExt'
+
     from( 'dist/' ) { include 'buildFile'; }
 
     manifest{
@@ -54,3 +84,4 @@ jar {
                    "Implementation-Version": "${project.version}" )
     }
 }
+

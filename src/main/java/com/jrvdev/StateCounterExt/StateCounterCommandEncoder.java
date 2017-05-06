@@ -1,6 +1,9 @@
 package com.jrvdev.StateCounterExt;
 
 import com.jrvdev.StateCounterExt.StateCounter;
+
+import VASSAL.build.Buildable;
+import VASSAL.build.GameModule;
 import VASSAL.command.AddPiece;
 import VASSAL.command.Command;
 import VASSAL.command.NullCommand;
@@ -9,6 +12,13 @@ import VASSAL.counters.GamePiece;
 import VASSAL.tools.SequenceEncoder;
 
 public class StateCounterCommandEncoder extends VASL.build.module.ASLCommandEncoder { // VASSAL.build.module.BasicCommandEncoder {
+    
+    // b is the extension instance; this object needs to be added to the game module, not the extension
+    @Override
+    public void addTo(Buildable b) {
+        GameModule.getGameModule().addCommandEncoder(this);
+    }
+    
     @Override
     public Decorator createDecorator(String type, GamePiece inner) {
         //else if (type.startsWith(StateCounter.ID)) {

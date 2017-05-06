@@ -6,7 +6,7 @@
       <VASSAL.build.widget.PieceSlot entryName="test piece" gpid="d58:2" height="48" width="48">SC+/null/piece;;;fi\/fi000H.gif;test piece/null;0;0;d58:2</VASSAL.build.widget.PieceSlot>
     </VASSAL.build.module.PieceWindow>
   </VASSAL.build.module.ExtensionElement>
-  <!-- this creates a tab inside the counter window ->
+  <!-- this creates a tab inside the counter window -->
   <VASSAL.build.module.ExtensionElement target="VASSAL.build.module.PieceWindow:VASL Counters/VASSAL.build.widget.TabWidget">
     <VASSAL.build.widget.PanelWidget entryName="Test inside vasl" fixed="false" nColumns="3" vert="false">
       <VASSAL.build.widget.PieceSlot entryName="test inside vasl piece" gpid="d58:4" height="0" width="0">SC+/null/piece;;;ax\/gun\/roAR107.gif;test inside vasl piece/null;0;0;</VASSAL.build.widget.PieceSlot>
