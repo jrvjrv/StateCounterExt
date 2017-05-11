@@ -9,6 +9,7 @@ import VASSAL.command.Command;
 import VASSAL.command.NullCommand;
 import VASSAL.counters.Decorator;
 import VASSAL.counters.GamePiece;
+import VASSAL.counters.PieceDefiner;
 import VASSAL.tools.SequenceEncoder;
 
 public class StateCounterCommandEncoder extends VASL.build.module.ASLCommandEncoder { // VASSAL.build.module.BasicCommandEncoder {
@@ -17,6 +18,7 @@ public class StateCounterCommandEncoder extends VASL.build.module.ASLCommandEnco
     @Override
     public void addTo(Buildable b) {
         GameModule.getGameModule().addCommandEncoder(this);
+        PieceDefiner.addDefinition(new StateCounter());
     }
     
     @Override

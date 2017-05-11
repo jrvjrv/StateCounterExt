@@ -1,5 +1,6 @@
 package com.jrvdev.StateCounterExt;
 
+import org.apache.commons.lang3.StringUtils;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -31,7 +32,7 @@ import VASSAL.tools.imageop.ScaledImagePainter;
 public class StateCounter extends Decorator implements EditablePiece {
    
     
-    StateMachine< String, KeyStroke, StateCounterState > _stateMachine = null;
+    StateMachine< String, KeyStroke, StateCounterState > _stateMachine = new StateMachine< String, KeyStroke, StateCounterState >();
     
     private class StateCounterState implements IStateDataStructureState< String >{
         private String _stateId;
@@ -91,7 +92,6 @@ public class StateCounter extends Decorator implements EditablePiece {
         // ctrl-F
         KeyStroke breakUnbreakKeyStroke = KeyStroke.getKeyStroke(70, 130);
         
-        _stateMachine = new StateMachine< String, KeyStroke, StateCounterState >();
         _stateMachine
             .addState( new StateCounterState( "4-5-8", "4-5-8 E Sq", "ru/ru458S"))
             .addState( new StateCounterState( "4-4-7", "4-4-7 1 Sq", "ru/ru447S"))
@@ -259,7 +259,10 @@ public class StateCounter extends Decorator implements EditablePiece {
     public String getName( boolean localized ) {
         
         //return _states.get(_currentState).getName();
-        return _stateMachine.getCurrentState().getName();
+        if ( !( _stateMachine.getCurrentState() == null ) ) {
+            return _stateMachine.getCurrentState().getName();
+        }
+        return null;
     }
 
     @Override
@@ -267,7 +270,12 @@ public class StateCounter extends Decorator implements EditablePiece {
     // shows up when adding a new piece on list of available traits.
     public String getDescription() {
         // TODO Hacked, arbitrary implementation
-        return "State 4-5-8 description";
+        String name = getName( true );
+        String description = "State Counter"; 
+        if ( !StringUtils.isBlank( name ) ) {
+            description += " [" + name + "]";
+        }
+        return description;
     }
 
     @Override
