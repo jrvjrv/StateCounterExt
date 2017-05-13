@@ -185,6 +185,7 @@ public class StateCounter extends Decorator implements EditablePiece {
 }
     
     public StateCounter() {
+        this( ID + "{\"name\":\"Hard-coded in StateCounter\"}", null );
     }
     
     public StateCounter( String initializationInfo, GamePiece piece ) {
@@ -208,12 +209,16 @@ public class StateCounter extends Decorator implements EditablePiece {
         // TODO figure out what states can start in
         // if ( _states != null && _states.size() > 0 ) {
         //     return _states.get(_currentState).getSize();
-        if ( _stateMachine != null ) {
+        if ( !missingOrEmptyStateMachine() ) {
             return _stateMachine.getCurrentState().getSize();
         }
         else {
             return new Rectangle();
         }
+    }
+    
+    private boolean missingOrEmptyStateMachine() {
+        return ( _stateMachine == null ) || ( _stateMachine.getCurrentState() == null ); 
     }
 
 
@@ -258,8 +263,7 @@ public class StateCounter extends Decorator implements EditablePiece {
     
     public String getName( boolean localized ) {
         
-        //return _states.get(_currentState).getName();
-        if ( !( _stateMachine.getCurrentState() == null ) ) {
+        if ( !missingOrEmptyStateMachine() ) {
             return _stateMachine.getCurrentState().getName();
         }
         return null;
@@ -304,17 +308,11 @@ public class StateCounter extends Decorator implements EditablePiece {
     @Override
     public String myGetState() {
         final SequenceEncoder se = new SequenceEncoder(';');
+        if ( !missingOrEmptyStateMachine() ) {
+            return se.append(String.valueOf(_stateMachine.getCurrentState().getStateId())).getValue();
+        }
 
-        /*
-         * Fix for Bug 9700 is to strip back the encoding of State to the simplest case.
-         * Both Activation status and level is determined by the value parameter.
-         */
-        //return se.append(String.valueOf(_currentState)).getValue();
-        return se.append(String.valueOf(_stateMachine.getCurrentState().getStateId())).getValue();
-
-        // TODO regenerate the information
-        //return this._initializationInfo;
-        //return "";
+        return null;
     }
 
     @Override
