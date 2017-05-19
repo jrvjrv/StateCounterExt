@@ -77,10 +77,11 @@ public class StateCounter extends Decorator implements EditablePiece {
     // protected GamePiece piece;
     
     private String _initializationInfo;
-    
-    //private KeyStroke _elrKeyStroke;
-    //private KeyStroke _battleHardenKeyStroke;
 
+    private void initialize( String jsonInitialization ) {
+        
+    }
+    
     private void hardCodeInitialize() {
         System.out.println("hardCodeInitialize begin");
         // ctrl-E
@@ -286,6 +287,7 @@ public class StateCounter extends Decorator implements EditablePiece {
     public void mySetType(String type) {
         this._initializationInfo = type;
         hardCodeInitialize();
+        initialize( type );
     }
 
     @Override

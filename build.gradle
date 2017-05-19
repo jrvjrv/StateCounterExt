@@ -13,8 +13,9 @@
 
 // to use:
 //   primary tasks:
-//     ./gradlew test       # run unit tests
-//     ./gradlew shadowJar  # build extension
+//     ./gradlew compileJava    # pull down new libraries
+//     ./gradlew test           # run unit tests
+//     ./gradlew shadowJar      # build extension
 
 
 plugins {
@@ -23,7 +24,7 @@ plugins {
 
 apply plugin: 'java'
 
-version='0.06.00'
+version='0.07.00'
 sourceCompatibility=1.5
 targetCompatibility=1.5
 
@@ -63,6 +64,9 @@ dependencies {
     compile group: 'com.jrvdev', name: 'StateDataStructure', version: '0.51.00'  
     //shadow files( '../../../workspace/StateDataStructure/build/libs/StateDataStructure-0.50.00.jar' )
     //runtime files( '../../../workspace/StateDataStructure/build/libs/StateDataStructure-0.50.00.jar' )
+    // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
+
 }
 
 jar {
