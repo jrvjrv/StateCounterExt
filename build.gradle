@@ -10,6 +10,13 @@
 // StateCounter
 
 // Apply the java plugin to add support for Java
+
+// to use:
+//   primary tasks:
+//     ./gradlew test       # run unit tests
+//     ./gradlew shadowJar  # build extension
+
+
 plugins {
   id 'com.github.johnrengelman.shadow' version '1.2.4'
 }
