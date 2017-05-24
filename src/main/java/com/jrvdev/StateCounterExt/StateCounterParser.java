@@ -14,7 +14,7 @@ import javax.swing.KeyStroke;
 import org.json.simple.JSONArray;
 import com.jrvdev.StateDataStructure.IStateMachine;
 
-public class StateCounterParser {
+public class StateCounterParser implements IStateCounterParser {
     
     private String _stateCounterInitialization;
     private IStateCounterStateFactory _stateCounterStateFactory;

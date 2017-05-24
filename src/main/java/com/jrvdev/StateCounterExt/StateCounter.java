@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Area;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.KeyStroke;
 
@@ -29,9 +31,10 @@ import VASSAL.tools.imageop.ScaledImagePainter;
 // TODO: TranslatablePiece adds internationalization, which can be deferred until later.
 public class StateCounter extends Decorator implements EditablePiece {
    
+    private StateCounterComposite _stateCounterComposite;
     
-    StateMachine< String, KeyStroke, IStateCounterState > _stateMachine = new StateMachine< String, KeyStroke, IStateCounterState >();
-    
+    StateMachine< String, String, IStateCounterState > _stateMachine = new StateMachine< String, String, IStateCounterState >();
+    Map<KeyStroke, String> _keyToCommandMap = new HashMap<KeyStroke,String>();
     
     public static final String ID = "StateCounter;";
     // use the value that's inherited
@@ -53,6 +56,11 @@ public class StateCounter extends Decorator implements EditablePiece {
         KeyStroke squadHalfsquadKeyStroke = KeyStroke.getKeyStroke(86, 130);
         // ctrl-F
         KeyStroke breakUnbreakKeyStroke = KeyStroke.getKeyStroke(70, 130);
+        
+        _keyToCommandMap.put(elrKeyStroke, "ELR");
+        _keyToCommandMap.put(battleHardenKeyStroke, "BattleHarden");
+        _keyToCommandMap.put(squadHalfsquadKeyStroke, "SquadHalfsquad");
+        _keyToCommandMap.put(breakUnbreakKeyStroke, "BreakUnbreak");
         
         _stateMachine
             .addState( new StateCounterState( "4-5-8", "4-5-8 E Sq", "ru/ru458S"))
@@ -77,72 +85,72 @@ public class StateCounter extends Decorator implements EditablePiece {
             .addState( new StateCounterState( "broken 2-2-7", "2-2-7 [1] Hs", "ru/ruh6b"))
             .addState( new StateCounterState( "broken 3-2-8", "3-2-8 [E] Hs", "ru/ruh7b"));
 
-        _stateMachine.addTransition(elrKeyStroke, "4-5-8", "4-4-7" )
-            .addTransition(elrKeyStroke, "4-4-7", "4-2-6" )
-            .addTransition(elrKeyStroke, "6-2-8", "5-2-7" )
-            .addTransition(elrKeyStroke, "5-2-7", "4-2-6" )
-            .addTransition(elrKeyStroke, "2-4-8", "2-3-7" )
-            .addTransition(elrKeyStroke, "2-3-7", "2-2-6" )
-            .addTransition(elrKeyStroke, "3-2-8", "2-2-7" )
-            .addTransition(elrKeyStroke, "2-2-7", "2-2-6" );
+        _stateMachine.addTransition(_keyToCommandMap.get(elrKeyStroke).toString(), "4-5-8", "4-4-7" )
+            .addTransition(_keyToCommandMap.get(elrKeyStroke).toString(), "4-4-7", "4-2-6" )
+            .addTransition(_keyToCommandMap.get(elrKeyStroke).toString(), "6-2-8", "5-2-7" )
+            .addTransition(_keyToCommandMap.get(elrKeyStroke).toString(), "5-2-7", "4-2-6" )
+            .addTransition(_keyToCommandMap.get(elrKeyStroke).toString(), "2-4-8", "2-3-7" )
+            .addTransition(_keyToCommandMap.get(elrKeyStroke).toString(), "2-3-7", "2-2-6" )
+            .addTransition(_keyToCommandMap.get(elrKeyStroke).toString(), "3-2-8", "2-2-7" )
+            .addTransition(_keyToCommandMap.get(elrKeyStroke).toString(), "2-2-7", "2-2-6" );
         
         _stateMachine
-            .addTransition(battleHardenKeyStroke, "4-2-6", "5-2-7" )
-            .addTransition(battleHardenKeyStroke, "5-2-7", "6-2-8" )
-            .addTransition(battleHardenKeyStroke, "4-4-7", "4-5-8" )
-            .addTransition(battleHardenKeyStroke, "2-2-6", "2-2-7" )
-            .addTransition(battleHardenKeyStroke, "2-2-7", "3-2-8" )
-            .addTransition(battleHardenKeyStroke, "2-3-7", "2-4-8" );
+            .addTransition(_keyToCommandMap.get(battleHardenKeyStroke).toString(), "4-2-6", "5-2-7" )
+            .addTransition(_keyToCommandMap.get(battleHardenKeyStroke).toString(), "5-2-7", "6-2-8" )
+            .addTransition(_keyToCommandMap.get(battleHardenKeyStroke).toString(), "4-4-7", "4-5-8" )
+            .addTransition(_keyToCommandMap.get(battleHardenKeyStroke).toString(), "2-2-6", "2-2-7" )
+            .addTransition(_keyToCommandMap.get(battleHardenKeyStroke).toString(), "2-2-7", "3-2-8" )
+            .addTransition(_keyToCommandMap.get(battleHardenKeyStroke).toString(), "2-3-7", "2-4-8" );
 
         _stateMachine
-            .addTransition(squadHalfsquadKeyStroke, "4-5-8", "2-4-8" )
-            .addTransition(squadHalfsquadKeyStroke, "4-4-7", "2-3-7" )
-            .addTransition(squadHalfsquadKeyStroke, "4-2-6", "2-2-6" )
-            .addTransition(squadHalfsquadKeyStroke, "6-2-8", "3-2-8" )
-            .addTransition(squadHalfsquadKeyStroke, "5-2-7", "2-2-7" )
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "4-5-8", "2-4-8" )
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "4-4-7", "2-3-7" )
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "4-2-6", "2-2-6" )
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "6-2-8", "3-2-8" )
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "5-2-7", "2-2-7" )
     
-            .addTransition(squadHalfsquadKeyStroke, "2-4-8", "4-5-8" )
-            .addTransition(squadHalfsquadKeyStroke, "2-3-7", "4-4-7" )
-            .addTransition(squadHalfsquadKeyStroke, "2-2-6", "4-2-6" )
-            .addTransition(squadHalfsquadKeyStroke, "3-2-8", "6-2-8" )
-            .addTransition(squadHalfsquadKeyStroke, "2-2-7", "5-2-7" )
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "2-4-8", "4-5-8" )
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "2-3-7", "4-4-7" )
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "2-2-6", "4-2-6" )
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "3-2-8", "6-2-8" )
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "2-2-7", "5-2-7" )
           
-            .addTransition(squadHalfsquadKeyStroke, "broken 4-5-8", "broken 2-4-8" )
-            .addTransition(squadHalfsquadKeyStroke, "broken 4-4-7", "broken 2-3-7" )
-            .addTransition(squadHalfsquadKeyStroke, "broken 4-2-6", "broken 2-2-6" )
-            .addTransition(squadHalfsquadKeyStroke, "broken 6-2-8", "broken 3-2-8" )
-            .addTransition(squadHalfsquadKeyStroke, "broken 5-2-7", "broken 2-2-7" )
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "broken 4-5-8", "broken 2-4-8" )
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "broken 4-4-7", "broken 2-3-7" )
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "broken 4-2-6", "broken 2-2-6" )
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "broken 6-2-8", "broken 3-2-8" )
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "broken 5-2-7", "broken 2-2-7" )
   
-            .addTransition(squadHalfsquadKeyStroke, "broken 2-4-8", "broken 4-5-8" )
-            .addTransition(squadHalfsquadKeyStroke, "broken 2-3-7", "broken 4-4-7" )
-            .addTransition(squadHalfsquadKeyStroke, "broken 2-2-6", "broken 4-2-6" )
-            .addTransition(squadHalfsquadKeyStroke, "broken 3-2-8", "broken 6-2-8" )
-            .addTransition(squadHalfsquadKeyStroke, "broken 2-2-7", "broken 5-2-7" );
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "broken 2-4-8", "broken 4-5-8" )
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "broken 2-3-7", "broken 4-4-7" )
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "broken 2-2-6", "broken 4-2-6" )
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "broken 3-2-8", "broken 6-2-8" )
+            .addTransition(_keyToCommandMap.get(squadHalfsquadKeyStroke).toString(), "broken 2-2-7", "broken 5-2-7" );
 
         _stateMachine
-            .addTransition(breakUnbreakKeyStroke, "4-5-8", "broken 4-5-8" )
-            .addTransition(breakUnbreakKeyStroke, "4-4-7", "broken 4-4-7" )
-            .addTransition(breakUnbreakKeyStroke, "4-2-6", "broken 4-2-6" )
-            .addTransition(breakUnbreakKeyStroke, "6-2-8", "broken 6-2-8" )
-            .addTransition(breakUnbreakKeyStroke, "5-2-7", "broken 5-2-7" )
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "4-5-8", "broken 4-5-8" )
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "4-4-7", "broken 4-4-7" )
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "4-2-6", "broken 4-2-6" )
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "6-2-8", "broken 6-2-8" )
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "5-2-7", "broken 5-2-7" )
     
-            .addTransition(breakUnbreakKeyStroke, "2-4-8", "broken 2-4-8" )
-            .addTransition(breakUnbreakKeyStroke, "2-3-7", "broken 2-3-7" )
-            .addTransition(breakUnbreakKeyStroke, "2-2-6", "broken 2-2-6" )
-            .addTransition(breakUnbreakKeyStroke, "3-2-8", "broken 3-2-8" )
-            .addTransition(breakUnbreakKeyStroke, "2-2-7", "broken 2-2-7" )
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "2-4-8", "broken 2-4-8" )
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "2-3-7", "broken 2-3-7" )
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "2-2-6", "broken 2-2-6" )
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "3-2-8", "broken 3-2-8" )
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "2-2-7", "broken 2-2-7" )
 
-            .addTransition(breakUnbreakKeyStroke, "broken 4-5-8", "4-5-8")
-            .addTransition(breakUnbreakKeyStroke, "broken 4-4-7", "4-4-7")
-            .addTransition(breakUnbreakKeyStroke, "broken 4-2-6", "4-2-6")
-            .addTransition(breakUnbreakKeyStroke, "broken 6-2-8", "6-2-8")
-            .addTransition(breakUnbreakKeyStroke, "broken 5-2-7", "5-2-7")
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "broken 4-5-8", "4-5-8")
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "broken 4-4-7", "4-4-7")
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "broken 4-2-6", "4-2-6")
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "broken 6-2-8", "6-2-8")
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "broken 5-2-7", "5-2-7")
                                                                          
-            .addTransition(breakUnbreakKeyStroke, "broken 2-4-8", "2-4-8")
-            .addTransition(breakUnbreakKeyStroke, "broken 2-3-7", "2-3-7")
-            .addTransition(breakUnbreakKeyStroke, "broken 2-2-6", "2-2-6")
-            .addTransition(breakUnbreakKeyStroke, "broken 3-2-8", "3-2-8")
-            .addTransition(breakUnbreakKeyStroke, "broken 2-2-7", "2-2-7");
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "broken 2-4-8", "2-4-8")
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "broken 2-3-7", "2-3-7")
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "broken 2-2-6", "2-2-6")
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "broken 3-2-8", "3-2-8")
+            .addTransition(_keyToCommandMap.get(breakUnbreakKeyStroke).toString(), "broken 2-2-7", "2-2-7");
         System.out.println("hardCodeInitialize end");
 }
     
@@ -151,6 +159,7 @@ public class StateCounter extends Decorator implements EditablePiece {
     }
     
     public StateCounter( String initializationInfo, GamePiece piece ) {
+
         
         // this calls through decorator rather than setting the value directly. 
         this.setInner( piece );
@@ -294,7 +303,8 @@ public class StateCounter extends Decorator implements EditablePiece {
     public Command myKeyEvent(KeyStroke stroke) {
         // TODO hard-coded
         final ChangeTracker tracker = new ChangeTracker(this);
-        _stateMachine.transition( stroke );
+        String command = (String) this._keyToCommandMap.get( stroke );
+        _stateMachine.transition( command );
         return tracker.isChanged() ? tracker.getChangeCommand() : null;
     }
     
