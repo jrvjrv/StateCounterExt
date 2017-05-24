@@ -8,7 +8,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import javax.swing.KeyStroke;
