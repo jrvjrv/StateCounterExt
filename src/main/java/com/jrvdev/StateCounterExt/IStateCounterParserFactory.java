@@ -1,5 +1,5 @@
 package com.jrvdev.StateCounterExt;
 
 public interface IStateCounterParserFactory {
-    IStateCounterParser createNew( String stateCounterInitialization, IStateCounterStateFactory stateCounterStateFactory );
+    IStateCounterParser createNew( String stateCounterInitialization );
 }

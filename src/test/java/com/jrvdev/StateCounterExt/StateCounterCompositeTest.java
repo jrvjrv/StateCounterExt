@@ -13,18 +13,14 @@ public class StateCounterCompositeTest {
     @Test 
     public void constructsOk() {
         IStateCounterParserFactory mockParserFactory = (IStateCounterParserFactory) mock(IStateCounterParserFactory.class);
-        IStateCounterStateFactory mockStateFactory = (IStateCounterStateFactory) mock(IStateCounterStateFactory.class);
-        IStateMachine< String, String, IStateCounterState > mockStateMachine = (IStateMachine< String, String, IStateCounterState >) mock(IStateMachine.class);
-        StateCounterComposite c = new StateCounterComposite( mockParserFactory, mockStateFactory, mockStateMachine );
+        StateCounterComposite c = new StateCounterComposite( mockParserFactory );
         
         assertNotNull( c );
     }
     
     @Test(expected = NullPointerException.class)
     public void throwOnNullParserFactory() {
-        IStateCounterStateFactory mockStateFactory = (IStateCounterStateFactory) mock(IStateCounterStateFactory.class);
-        IStateMachine< String, String, IStateCounterState > mockStateMachine = (IStateMachine< String, String, IStateCounterState >) mock(IStateMachine.class);
-        StateCounterComposite c = new StateCounterComposite( null, mockStateFactory, mockStateMachine );
+        StateCounterComposite c = new StateCounterComposite( null );
     }
 
     @Test(expected = NullPointerException.class)

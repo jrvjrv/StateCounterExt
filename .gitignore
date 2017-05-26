@@ -16,3 +16,5 @@
 # /bin/
 # /.gradle/
 # /build/
+/.gradle/
+/build/

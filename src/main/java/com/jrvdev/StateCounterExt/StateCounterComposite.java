@@ -1,5 +1,7 @@
 package com.jrvdev.StateCounterExt;
 
+import java.util.Map;
+
 import javax.swing.KeyStroke;
 
 import com.jrvdev.StateDataStructure.IStateMachine;
@@ -8,19 +10,45 @@ import com.jrvdev.StateDataStructure.IStateMachine;
 // this class, making StateCounter the "application root" for dependency injection.
 public class StateCounterComposite {
     
-    IStateMachine< String, String, IStateCounterState > _stateMachine;
-
     
     private IStateCounterParserFactory _parserFactory;
-    private IStateCounterStateFactory _stateFactory;
+
+    private Map<KeyStroke,String> _keyToCommandMap;
+    private IStateMachine< String, String, IStateCounterState > _stateMachine;
     
-    public StateCounterComposite( 
-            IStateCounterParserFactory parserFactory, 
-            IStateCounterStateFactory stateFactory, 
-            IStateMachine< String, String, IStateCounterState > stateMachine ) {
+    public StateCounterComposite( IStateCounterParserFactory parserFactory ) {
         if ( parserFactory == null ) throw new NullPointerException("argument parserFactory");
-        if ( stateFactory == null ) throw new NullPointerException("argument stateFactory");
-        if ( stateMachine == null ) throw new NullPointerException("argument stateMachine");
+        _parserFactory = parserFactory;
+    }
+    
+    private boolean missingOrEmptyStateMachine() {
+        return ( _stateMachine == null ) || ( _stateMachine.getCurrentState() == null ); 
+    }
+    
+    private void initialize( String jsonInitialization ) {
+        IStateCounterParser p = _parserFactory.createNew(jsonInitialization);
+        _stateMachine = p.getStateMachine();
+        _keyToCommandMap = p.getKeyCommandTranslation();
+    }
+
+    public void mySetType(String type) {
+        initialize( type );
+    }
+
+    public String getLocalizedName() {
+        return getName(true);
+    }
+
+    public String getName() {
+        return getName( false );
+    }
+    
+    public String getName( boolean localized ) {
+        
+        if ( !missingOrEmptyStateMachine() ) {
+            return _stateMachine.getCurrentState().getName();
+        }
+        return null;
     }
 
 }

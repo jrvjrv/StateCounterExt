@@ -18,15 +18,19 @@ public class StateCounterParser implements IStateCounterParser {
     
     private String _stateCounterInitialization;
     private IStateCounterStateFactory _stateCounterStateFactory;
+    private IStateMachineFactory _stateMachineFactory;
+    private JSONParser _jsonParser = new JSONParser();
+    private JSONObject _stateCounterJSONObject;
     
-    public StateCounterParser( String stateCounterInitialization, IStateCounterStateFactory stateCounterStateFactory ) {
+    public StateCounterParser( String stateCounterInitialization, IStateCounterStateFactory stateCounterStateFactory, IStateMachineFactory stateMachineFactory ) {
         _stateCounterInitialization = stateCounterInitialization;
         if ( stateCounterStateFactory == null ) throw new NullPointerException("argument stateCounterStateFactory");
         _stateCounterStateFactory = stateCounterStateFactory;
+        if ( stateMachineFactory == null ) throw new NullPointerException("argument stateMachineFactory");
+        _stateMachineFactory = stateMachineFactory;
     }
     
-    private void ParseStates( JSONObject stateCounterJSONObject, IStateMachine<String, String, IStateCounterState> theMachine ) {
-        JSONArray statesJSONArray = (JSONArray) stateCounterJSONObject.get("states");
+    private void ParseStates( JSONArray statesJSONArray, IStateMachine<String, String, IStateCounterState> theMachine ) {
         Iterator<JSONObject> iterator = (Iterator<JSONObject>) statesJSONArray.iterator();
         while (iterator.hasNext()) {
             JSONObject stateJSONObject = iterator.next();
@@ -49,35 +53,36 @@ public class StateCounterParser implements IStateCounterParser {
         }
     }
     
-    public void InitializeStateMachine( IStateMachine<String, String, IStateCounterState> theMachine ) {
-        JSONParser jsonParser = new JSONParser();
-        try {
-            JSONObject stateCounterJSONObject = (JSONObject) jsonParser.parse(_stateCounterInitialization);
-            //System.out.println(stateCounterJSONObject);
-            ParseStates( stateCounterJSONObject, theMachine );
-            //System.out.println((String) state.get("id"));
+    private JSONObject GetStateCounterJSONObject() {
+        if ( this._stateCounterJSONObject == null ) {
+            try {
+                JSONParser p = new JSONParser();
+                _stateCounterJSONObject = (JSONObject) p.parse(_stateCounterInitialization);
+            }
+            catch ( Exception ex ) {
+                System.out.println( "got exception " + ex.getClass().getName());
+                _stateCounterJSONObject = new JSONObject();
+            }
         }
-        catch ( Exception ex ) {
-            System.out.println( "got exception " + ex.getClass().getName());
-        }
+        return _stateCounterJSONObject;
+    }
+    
+    public IStateMachine<String, String, IStateCounterState> getStateMachine() {
+        IStateMachine<String, String, IStateCounterState> theMachine = _stateMachineFactory.createNew();
+        ParseStates( (JSONArray) GetStateCounterJSONObject().get("states"), theMachine );
+
+        return theMachine;
     }
     
     public Map<KeyStroke, String> getKeyCommandTranslation() {
         Map<KeyStroke, String> theMap = new HashMap<KeyStroke, String>();
 
-        JSONParser jsonParser = new JSONParser();
-        try {
-            JSONObject stateCounterJSONObject = (JSONObject) jsonParser.parse(_stateCounterInitialization);
-            JSONArray keyToCommandMapJSONArray = (JSONArray) stateCounterJSONObject.get("keyToCommandMap");
-            Iterator<JSONObject> iterator = (Iterator<JSONObject>) keyToCommandMapJSONArray.iterator();
-            while (iterator.hasNext()) {
-                JSONObject keyToCommandMappingJSONObject = iterator.next();
-                
-                theMap.put(KeyStroke.getKeyStroke(keyToCommandMappingJSONObject.get("keyStroke").toString()), keyToCommandMappingJSONObject.get("command").toString());
-            }
-        }
-        catch ( Exception ex ) {
-            System.out.println( "got translation exception " + ex.getClass().getName());
+        JSONArray keyToCommandMapJSONArray = (JSONArray) GetStateCounterJSONObject().get("keyToCommandMap");
+        Iterator<JSONObject> iterator = (Iterator<JSONObject>) keyToCommandMapJSONArray.iterator();
+        while (iterator.hasNext()) {
+            JSONObject keyToCommandMappingJSONObject = iterator.next();
+            
+            theMap.put(KeyStroke.getKeyStroke(keyToCommandMappingJSONObject.get("keyStroke").toString()), keyToCommandMappingJSONObject.get("command").toString());
         }
         
         return theMap;

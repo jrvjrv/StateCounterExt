@@ -159,8 +159,13 @@ public class StateCounter extends Decorator implements EditablePiece {
     }
     
     public StateCounter( String initializationInfo, GamePiece piece ) {
-
         
+        IStateCounterStateFactory stateCounterStateFactory = new StateCounterStateFactory();
+        IStateMachineFactory stateMachineFactory = new StateMachineFactory();
+        IStateCounterParserFactory stateCounterParserFactory = new StateCounterParserFactory(stateCounterStateFactory, stateMachineFactory); 
+
+
+        this._stateCounterComposite = new StateCounterComposite( stateCounterParserFactory );
         // this calls through decorator rather than setting the value directly. 
         this.setInner( piece );
         this.mySetType( initializationInfo );
@@ -303,8 +308,8 @@ public class StateCounter extends Decorator implements EditablePiece {
     public Command myKeyEvent(KeyStroke stroke) {
         // TODO hard-coded
         final ChangeTracker tracker = new ChangeTracker(this);
-        String command = (String) this._keyToCommandMap.get( stroke );
-        _stateMachine.transition( command );
+        String transitionCommand = (String) this._keyToCommandMap.get( stroke );
+        _stateMachine.transition( transitionCommand );
         return tracker.isChanged() ? tracker.getChangeCommand() : null;
     }
     
