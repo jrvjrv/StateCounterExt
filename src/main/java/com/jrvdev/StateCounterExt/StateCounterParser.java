@@ -60,8 +60,12 @@ public class StateCounterParser implements IStateCounterParser {
                 _stateCounterJSONObject = (JSONObject) p.parse(_stateCounterInitialization);
             }
             catch ( Exception ex ) {
+                // convert parsing errors to the initialization for an empty state machine
+                // hopefully parsing errors will not be real parsing errors but things like null or empty string
                 System.out.println( "got exception " + ex.getClass().getName());
                 _stateCounterJSONObject = new JSONObject();
+                _stateCounterJSONObject.put("states", new JSONArray());
+                _stateCounterJSONObject.put("keyToCommandMap", new JSONArray());
             }
         }
         return _stateCounterJSONObject;
