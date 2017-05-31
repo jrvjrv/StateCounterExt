@@ -19,7 +19,7 @@ plugins {
 
 apply plugin: 'java'
 
-version='0.07.00'
+version='0.08.00'
 sourceCompatibility=1.5
 targetCompatibility=1.5
 

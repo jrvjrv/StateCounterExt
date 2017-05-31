@@ -38,7 +38,7 @@ public class StateCounterState implements IStateCounterState {
     public Rectangle getSize() {
         // TODO hacked thing to get it to work
         if ( _size == null ) {
-            _size = ImageUtils.getBounds(_imagePainter.getImageSize());
+            _size = ImageUtils.getBounds(getScaledImagePainter().getImageSize());
             _size.translate(_xOff, _yOff);
         }
         

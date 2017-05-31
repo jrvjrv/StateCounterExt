@@ -178,34 +178,36 @@ public class StateCounterParserTest {
     
     @Test
     public void testEmptyKeyCommandTranslationInitialization() {
-//        IStateCounterStateFactory testFactory = new TestStateCounterStateFactory();
-//        String stateCounterInitialization = "{\"states\" : [ {  \"id\" : \"4-5-8\", \"name\" : \"4-5-8 E Sq\", \"imagePath\" : \"ru/ru458S\", \"transitions\" : [ { \"command\" : \"ELR\", \"toState\" : \"4-4-7\" } ] }, {  \"id\" : \"4-4-7\", \"name\" : \"4-4-7 1 Sq\", \"imagePath\" : \"ru/ru447S\", \"transitions\" : [ { \"command\" : \"ELR\", \"toState\" : \"4-2-6\" }, { \"command\" : \"BattleHarden\", \"toState\" : \"4-5-8\" } ] }, {  \"id\" : \"4-2-6\", \"name\" : \"4-2-6 C Sq\", \"imagePath\" : \"ru/ru426S\", \"transitions\" : [] } ], \"keyToCommandMap\" : [] }";
-//
-//        StateCounterParser p = new StateCounterParser( stateCounterInitialization, testFactory );
-//        
-//        Map<KeyStroke, String> map = p.getKeyCommandTranslation();
-//        
-//        assertTrue( map.isEmpty());
+        IStateCounterStateFactory mockStateFactory = (IStateCounterStateFactory) mock( IStateCounterStateFactory.class );
+        IStateMachineFactory mockMachineFactory = (IStateMachineFactory) mock(IStateMachineFactory.class);
+        String stateCounterInitialization = "{\"states\" : [ {  \"id\" : \"4-5-8\", \"name\" : \"4-5-8 E Sq\", \"imagePath\" : \"ru/ru458S\", \"transitions\" : [ { \"command\" : \"ELR\", \"toState\" : \"4-4-7\" } ] }, {  \"id\" : \"4-4-7\", \"name\" : \"4-4-7 1 Sq\", \"imagePath\" : \"ru/ru447S\", \"transitions\" : [ { \"command\" : \"ELR\", \"toState\" : \"4-2-6\" }, { \"command\" : \"BattleHarden\", \"toState\" : \"4-5-8\" } ] }, {  \"id\" : \"4-2-6\", \"name\" : \"4-2-6 C Sq\", \"imagePath\" : \"ru/ru426S\", \"transitions\" : [] } ], \"keyToCommandMap\" : [] }";
+
+        StateCounterParser p = new StateCounterParser( stateCounterInitialization, mockStateFactory, mockMachineFactory );
+        
+        Map<KeyStroke, String> map = p.getKeyCommandTranslation();
+        
+        assertTrue( map.isEmpty());
         
     }
 
     @Test
     public void testKeyCommandTranslationInitialization() {
-//        IStateCounterStateFactory testFactory = new TestStateCounterStateFactory();
-//        String stateCounterInitialization = "{\"states\" : [ {  \"id\" : \"4-5-8\", \"name\" : \"4-5-8 E Sq\", \"imagePath\" : \"ru/ru458S\", \"transitions\" : [ { \"command\" : \"ELR\", \"toState\" : \"4-4-7\" } ] }, {  \"id\" : \"4-4-7\", \"name\" : \"4-4-7 1 Sq\", \"imagePath\" : \"ru/ru447S\", \"transitions\" : [ { \"command\" : \"ELR\", \"toState\" : \"4-2-6\" }, { \"command\" : \"BattleHarden\", \"toState\" : \"4-5-8\" } ] }, {  \"id\" : \"4-2-6\", \"name\" : \"4-2-6 C Sq\", \"imagePath\" : \"ru/ru426S\", \"transitions\" : [] } ], \"keyToCommandMap\" : [ { \"keyStroke\" : \"ctrl pressed E\", \"command\" : \"ELR\" }, { \"keyStroke\" : \"ctrl pressed Q\", \"command\" : \"BattleHarden\" }] }";
-//
-//        StateCounterParser p = new StateCounterParser( stateCounterInitialization, testFactory );
-//        
-//        Map<KeyStroke, String> map = p.getKeyCommandTranslation();
-//        
-//        //System.out.println("KeyStroke.toString() = " + KeyStroke.getKeyStroke("ctrl pressed E").toString());
-//        // map returns a null on a key it can't find
-//        //System.out.println(map.get(KeyStroke.getKeyStroke("ctrl pressed E")));
-//        
-//        assertFalse( map.isEmpty());
-//        
-//        assertEquals( "ELR", map.get(KeyStroke.getKeyStroke("ctrl pressed E")) );
-//        assertEquals( "BattleHarden", map.get(KeyStroke.getKeyStroke("ctrl pressed Q")) );
+        IStateCounterStateFactory mockStateFactory = (IStateCounterStateFactory) mock( IStateCounterStateFactory.class );
+        IStateMachineFactory mockMachineFactory = (IStateMachineFactory) mock(IStateMachineFactory.class);
+        String stateCounterInitialization = "{\"states\" : [ {  \"id\" : \"4-5-8\", \"name\" : \"4-5-8 E Sq\", \"imagePath\" : \"ru/ru458S\", \"transitions\" : [ { \"command\" : \"ELR\", \"toState\" : \"4-4-7\" } ] }, {  \"id\" : \"4-4-7\", \"name\" : \"4-4-7 1 Sq\", \"imagePath\" : \"ru/ru447S\", \"transitions\" : [ { \"command\" : \"ELR\", \"toState\" : \"4-2-6\" }, { \"command\" : \"BattleHarden\", \"toState\" : \"4-5-8\" } ] }, {  \"id\" : \"4-2-6\", \"name\" : \"4-2-6 C Sq\", \"imagePath\" : \"ru/ru426S\", \"transitions\" : [] } ], \"keyToCommandMap\" : [ { \"keyStroke\" : \"ctrl pressed E\", \"command\" : \"ELR\" }, { \"keyStroke\" : \"ctrl pressed Q\", \"command\" : \"BattleHarden\" }] }";
+
+        StateCounterParser p = new StateCounterParser( stateCounterInitialization, mockStateFactory, mockMachineFactory );
+        
+        Map<KeyStroke, String> map = p.getKeyCommandTranslation();
+        
+        //System.out.println("KeyStroke.toString() = " + KeyStroke.getKeyStroke("ctrl pressed E").toString());
+        // map returns a null on a key it can't find
+        //System.out.println(map.get(KeyStroke.getKeyStroke("ctrl pressed E")));
+        
+        assertFalse( map.isEmpty());
+        
+        assertEquals( "ELR", map.get(KeyStroke.getKeyStroke("ctrl pressed E")) );
+        assertEquals( "BattleHarden", map.get(KeyStroke.getKeyStroke("ctrl pressed Q")) );
         
     }
 
